@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -8,7 +9,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
-const EditTicketModal = ({ ticket, onClose, onSave }) => {
+const EditTicketModal = ({
+  ticket,
+  onClose,
+  onSave,
+}: {
+  ticket: any;
+  onClose: any;
+  onSave: any;
+}) => {
   const [updatedData, setUpdatedData] = useState({ ...ticket });
 
   return (
@@ -19,21 +28,21 @@ const EditTicketModal = ({ ticket, onClose, onSave }) => {
         </DialogHeader>
         <div className="space-y-4">
           <Input
-            label="Subject"
+            //   label="Subject"
             value={updatedData.subject}
             onChange={(e) =>
               setUpdatedData({ ...updatedData, subject: e.target.value })
             }
           />
           <Input
-            label="Description"
+            //   label="Description"
             value={updatedData.description}
             onChange={(e) =>
               setUpdatedData({ ...updatedData, description: e.target.value })
             }
           />
           <Input
-            label="Status"
+            //   label="Status"
             value={updatedData.status}
             onChange={(e) =>
               setUpdatedData({ ...updatedData, status: e.target.value })

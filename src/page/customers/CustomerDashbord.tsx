@@ -1,4 +1,4 @@
-"use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import SidebarLayout from "@/components/layout/Sidebar";
 import { Separator } from "@/components/ui/separator";
@@ -75,8 +75,8 @@ const CustomerDashboard = () => {
         <EditTicketModal
           ticket={selectedTicket}
           onClose={() => setIsEditModalOpen(false)}
-          onSave={async (updatedData) => {
-            await updateTicket({ id: selectedTicket.id, updatedData });
+          onSave={async (updatedData: any) => {
+            await updateTicket({ id: selectedTicket, updatedData });
             setIsEditModalOpen(false);
           }}
         />

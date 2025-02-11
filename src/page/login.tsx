@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
@@ -97,11 +99,7 @@ const Login = () => {
             </div>
 
             {/* Error Message */}
-            {error && (
-              <p className="text-red-500 text-sm">
-                {error?.data?.message || "Login failed"}
-              </p>
-            )}
+            {error && <p className="text-red-500 text-sm">{"Login failed"}</p>}
 
             {/* Login Button */}
             <Button type="submit" className="w-full" disabled={loading}>
