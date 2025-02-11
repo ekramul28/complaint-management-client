@@ -1,5 +1,6 @@
 import CustomerDashboard from "@/page/customers/CustomerDashbord";
-import { Search } from "lucide-react";
+import Login from "@/page/login";
+import { Search, Ticket } from "lucide-react";
 
 export const customerPaths = [
   {
@@ -7,5 +8,17 @@ export const customerPaths = [
     path: "dashboard",
     icon: Search,
     element: <CustomerDashboard />,
+  },
+  {
+    title: "tickets",
+    url: "tickets",
+    icon: Ticket,
+    element: <Login />,
+  },
+  {
+    title: "tickets",
+    url: "tickets/:id",
+    icon: Ticket,
+    element: <Login />,
   },
 ];
