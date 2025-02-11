@@ -22,8 +22,7 @@ import {
   useDeleteTicketMutation,
   useGetAllTicketsQuery,
   useUpdateTicketMutation,
-} from "@/redux/features/admin/ticketsManagementApi";
-
+} from "@/redux/features/tickets/ticketsManagementApi";
 const ManageTickets = () => {
   const { data: tickets, isLoading, error } = useGetAllTicketsQuery(undefined);
   const [updateTicket] = useUpdateTicketMutation();

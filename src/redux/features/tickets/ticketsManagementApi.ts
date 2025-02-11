@@ -1,38 +1,42 @@
 import { baseApi } from "../../api/baseApi";
 
-const TicketManagementApi = baseApi.injectEndpoints({
+const ticketManagementApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    // ✅ Fetch all tickets
     getAllTickets: builder.query({
       query: () => ({
         url: "/tickets",
         method: "GET",
       }),
+      providesTags: ["Tickets"],
     }),
+
+    // ✅ Fetch a single ticket
     getSingleTicket: builder.query({
-      query: (id: string) => ({
+      query: (id) => ({
         url: `/tickets/${id}`,
         method: "GET",
       }),
+      providesTags: ["Tickets"],
     }),
-    createTicket: builder.mutation({
-      query: (ticketData) => ({
-        url: "/tickets",
-        method: "POST",
-        body: ticketData,
-      }),
-    }),
+
+    // ✅ Update a ticket
     updateTicket: builder.mutation({
-      query: ({ id, data }) => ({
+      query: ({ id, updatedData }) => ({
         url: `/tickets/${id}`,
         method: "PATCH",
-        body: data,
+        body: updatedData,
       }),
+      invalidatesTags: ["Tickets"],
     }),
+
+    // ✅ Delete a ticket
     deleteTicket: builder.mutation({
-      query: (id: string) => ({
+      query: (id) => ({
         url: `/tickets/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Tickets"],
     }),
   }),
 });
@@ -40,7 +44,6 @@ const TicketManagementApi = baseApi.injectEndpoints({
 export const {
   useGetAllTicketsQuery,
   useGetSingleTicketQuery,
-  useCreateTicketMutation,
   useUpdateTicketMutation,
   useDeleteTicketMutation,
-} = TicketManagementApi;
+} = ticketManagementApi;
