@@ -2,7 +2,6 @@ import { baseApi } from "../../api/baseApi";
 
 const ticketManagementApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // ✅ Fetch all tickets
     getAllTickets: builder.query({
       query: () => ({
         url: "/tickets",
@@ -11,7 +10,6 @@ const ticketManagementApi = baseApi.injectEndpoints({
       providesTags: ["Tickets"],
     }),
 
-    // ✅ Fetch a single ticket
     getSingleTicket: builder.query({
       query: (id) => ({
         url: `/tickets/${id}`,
@@ -20,7 +18,6 @@ const ticketManagementApi = baseApi.injectEndpoints({
       providesTags: ["Tickets"],
     }),
 
-    // ✅ Update a ticket
     updateTicket: builder.mutation({
       query: ({ id, updatedData }) => ({
         url: `/tickets/${id}`,
@@ -30,7 +27,6 @@ const ticketManagementApi = baseApi.injectEndpoints({
       invalidatesTags: ["Tickets"],
     }),
 
-    // ✅ Delete a ticket
     deleteTicket: builder.mutation({
       query: (id) => ({
         url: `/tickets/${id}`,

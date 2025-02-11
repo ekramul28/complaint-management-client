@@ -1,5 +1,6 @@
 import AdminDashboard from "@/page/admin/AdminDashboard";
-import Login from "@/page/Login";
+import ManageTickets from "@/page/admin/ManageTickets";
+import ManageUser from "@/page/admin/ManageUser";
 import { Search, Ticket, User } from "lucide-react";
 
 export const adminPaths = [
@@ -13,12 +14,12 @@ export const adminPaths = [
     title: "tickets",
     url: "tickets",
     icon: Ticket,
-    element: <Login />,
+    element: <ManageTickets />,
   },
   {
     title: "manage-users",
     url: "manage-users",
     icon: User,
-    element: <Login />,
+    element: <ManageUser />,
   },
 ];
