@@ -1,5 +1,5 @@
 import AdminDashboard from "@/page/admin/AdminDashboard";
-import Login from "@/page/login";
+import Login from "@/page/Login";
 import { Search, Ticket, User } from "lucide-react";
 
 export const adminPaths = [

@@ -1,5 +1,5 @@
 import CustomerDashboard from "@/page/customers/CustomerDashbord";
-import Login from "@/page/login";
+import Login from "@/page/Login";
 import { Search, Ticket } from "lucide-react";
 
 export const customerPaths = [
@@ -12,12 +12,6 @@ export const customerPaths = [
   {
     title: "tickets",
     url: "tickets",
-    icon: Ticket,
-    element: <Login />,
-  },
-  {
-    title: "tickets",
-    url: "tickets/:id",
     icon: Ticket,
     element: <Login />,
   },
