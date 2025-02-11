@@ -4,8 +4,8 @@ import { Search, Ticket } from "lucide-react";
 
 export const customerPaths = [
   {
-    name: "Dashboard",
-    path: "dashboard",
+    title: "Dashboard",
+    url: "dashboard",
     icon: Search,
     element: <CustomerDashboard />,
   },
