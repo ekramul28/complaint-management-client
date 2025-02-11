@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRegisterMutation } from "@/redux/features/auth/authApi";
+import { Link } from "react-router-dom";
 
 type SignupFormValues = {
   name: string;
@@ -150,17 +151,12 @@ const Signup = () => {
               {isLoading ? "Signing up..." : "Sign Up"}
             </Button>
 
-            {/* Google Signup Button */}
-            <Button variant="outline" className="w-full" disabled={isLoading}>
-              Sign up with Google
-            </Button>
-
             {/* Login Link */}
             <p className="text-center text-sm">
               Already have an account?{" "}
-              <a href="#" className="text-blue-600 hover:underline">
+              <Link to="/login" className="text-blue-600 hover:underline">
                 Log in
-              </a>
+              </Link>
             </p>
           </form>
         </CardContent>

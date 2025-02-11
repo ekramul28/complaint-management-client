@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Link } from "react-router-dom";
 
 type LoginFormValues = {
   email: string;
@@ -107,17 +108,12 @@ const Login = () => {
               {loading ? "Logging in..." : "Login"}
             </Button>
 
-            {/* Google Login Button */}
-            <Button variant="outline" className="w-full" disabled={loading}>
-              Login with Google
-            </Button>
-
             {/* Sign-up Link */}
             <p className="text-center text-sm">
               Don&apos;t have an account?{" "}
-              <a href="#" className="text-blue-600 hover:underline">
+              <Link to="/register" className="text-blue-600 hover:underline">
                 Sign up
-              </a>
+              </Link>
             </p>
           </form>
         </CardContent>

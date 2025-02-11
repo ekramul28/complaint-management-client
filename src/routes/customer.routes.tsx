@@ -1,7 +1,11 @@
+import CustomerDashboard from "@/page/customers/CustomerDashbord";
+import { Search } from "lucide-react";
+
 export const customerPaths = [
   {
     name: "Dashboard",
     path: "dashboard",
-    // element: <AdminDashboard />,
+    icon: Search,
+    element: <CustomerDashboard />,
   },
 ];
