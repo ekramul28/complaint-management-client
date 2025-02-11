@@ -1,11 +1,9 @@
-import { Button } from "./components/ui/button";
+import MainLayout from "./components/layout/MainLayout";
 
 function App() {
   return (
     <>
-      <h1>
-        <Button>it is ok</Button>
-      </h1>
+      <MainLayout />
     </>
   );
 }
