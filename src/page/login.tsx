@@ -1,124 +1,125 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Input } from "@/components/ui/input";
+import { useDispatch, useSelector } from "react-redux";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { setUser, TUser } from "@/redux/features/auth/authSlice";
+import { verifyToken } from "@/utils/verifyToken";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormDescription,
-  FormMessage,
-} from "@/components/ui/form";
-import { useToast } from "@/hooks/use-toast";
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
-const loginSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters long"),
-});
+type LoginFormValues = {
+  email: string;
+  password: string;
+};
 
 const Login = () => {
-  const { toast } = useToast();
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state: any) => state.auth);
+  const [login, { error }] = useLoginMutation();
 
-  const form = useForm({
-    resolver: zodResolver(loginSchema),
-    defaultValues: { email: "", password: "" },
-  });
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormValues>();
 
-  const handleLogin = async (data: any) => {
-    setLoading(true);
+  const onSubmit = async (data: LoginFormValues) => {
     try {
-      if (data.email === "admin@example.com" && data.password === "password") {
-        toast({
-          title: "Login successful!",
-          description: "Redirecting...",
-          variant: "default",
-        });
-        navigate("/dashboard");
-      } else {
-        toast({
-          title: "Invalid credentials",
-          description: "Please check your email and password",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Something went wrong",
-        variant: "destructive",
-      });
+      const res = await login(data).unwrap();
+      const user = verifyToken(res.data.accessToken) as TUser;
+
+      dispatch(setUser({ user, token: res.data.accessToken }));
+      toast.success("Logged in successfully");
+    } catch (err) {
+      toast.error("Login failed. Please check your credentials.");
     }
-    setLoading(false);
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 ">
-      <Card className="w-full max-w-md p-6 shadow-md bg-white ">
+    <div className="max-w-md mx-auto mt-20 px-5">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-center text-lg font-semibold">
-            Login
-          </CardTitle>
+          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardDescription>
+            Enter your email below to access your account.
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(handleLogin)}
-              className="space-y-4"
-            >
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your email" {...field} />
-                    </FormControl>
-                    <FormDescription>This is your login email.</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Email Input */}
+            <div>
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                {...register("email", { required: "Email is required" })}
+                className={errors.email ? "border-red-500" : ""}
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Enter your password"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      Make sure your password is strong.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
+              {errors.email && (
+                <p className="text-red-500 text-sm">{errors.email.message}</p>
+              )}
+            </div>
+
+            {/* Password Input */}
+            <div>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password">Password</Label>
+                <a href="#" className="text-sm text-blue-600 hover:underline">
+                  Forgot password?
+                </a>
+              </div>
+              <Input
+                id="password"
+                type="password"
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters",
+                  },
+                })}
+                className={errors.password ? "border-red-500" : ""}
               />
-              <Button
-                type="submit"
-                variant={"default"}
-                className="w-full "
-                disabled={loading}
-              >
-                {loading ? "Logging in..." : "Login"}
-              </Button>
-            </form>
-          </Form>
+              {errors.password && (
+                <p className="text-red-500 text-sm">
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
+
+            {/* Error Message */}
+            {error && (
+              <p className="text-red-500 text-sm">
+                {error?.data?.message || "Login failed"}
+              </p>
+            )}
+
+            {/* Login Button */}
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Logging in..." : "Login"}
+            </Button>
+
+            {/* Google Login Button */}
+            <Button variant="outline" className="w-full" disabled={loading}>
+              Login with Google
+            </Button>
+
+            {/* Sign-up Link */}
+            <p className="text-center text-sm">
+              Don&apos;t have an account?{" "}
+              <a href="#" className="text-blue-600 hover:underline">
+                Sign up
+              </a>
+            </p>
+          </form>
         </CardContent>
       </Card>
     </div>
